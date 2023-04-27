@@ -1,41 +1,35 @@
 package com.sukhralia.demo.controllers
 
 import com.sukhralia.demo.models.User
-import com.sukhralia.demo.repositories.UserRepository
-import org.springframework.http.ResponseEntity
+import com.sukhralia.demo.service.UserService
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/users")
-class UserController(private val userRepository: UserRepository) {
+class UserController(private val userService: UserService) {
 
     @GetMapping("/")
-    fun getUsers(): ResponseEntity<List<User>> {
-        return ResponseEntity.ok(userRepository.findAll())
+    fun getUsers(): List<User> {
+        return userService.getUsers()
     }
 
     @GetMapping("/{id}")
-    fun getUser(@PathVariable id: String): ResponseEntity<User> {
-        return ResponseEntity.ok(userRepository.findById(id).orElse(null))
+    fun getUser(@PathVariable id: String): User {
+        return userService.getUser(id)
     }
 
     @PostMapping("/")
-    fun createUser(@RequestBody user: User): ResponseEntity<User> {
-        return ResponseEntity.ok(userRepository.save(user))
+    fun createUser(@RequestBody user: User): User {
+        return userService.createUser(user)
     }
 
     @PutMapping("/{id}")
-    fun updateUser(@PathVariable id: String, @RequestBody user: User): ResponseEntity<User> {
-        val oldUser = userRepository.findById(id).orElse(null)
-        oldUser.name = user.name
-        oldUser.email = user.email
-        oldUser.password = user.password
-        return ResponseEntity.ok(userRepository.save(oldUser))
+    fun updateUser(@PathVariable id: String, @RequestBody user: User): User {
+        return userService.updateUser(id, user)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: String): ResponseEntity<String> {
-        userRepository.deleteById(id)
-        return ResponseEntity.ok(id)
+    fun deleteUser(@PathVariable id: String): String {
+        return userService.deleteUser(id)
     }
 }
