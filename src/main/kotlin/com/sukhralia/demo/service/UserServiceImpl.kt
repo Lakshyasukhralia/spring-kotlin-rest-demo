@@ -15,7 +15,7 @@ class UserServiceImpl : UserService {
     }
 
     override fun getUser(id: String): User {
-        return userList.find { it.id == id } ?: throw RuntimeException("User with id = $id not found")
+        return userList.find { it.id == id } ?: throw UserNotFoundException("User with id = $id not found")
     }
 
     override fun createUser(user: User): User {
@@ -28,7 +28,6 @@ class UserServiceImpl : UserService {
         userList.find { it.id == id }?.let {
             it.name = user.name
             it.email = user.email
-            it.password = user.password
         }
         return user
     }

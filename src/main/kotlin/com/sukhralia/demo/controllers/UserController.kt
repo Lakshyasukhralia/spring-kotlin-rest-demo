@@ -2,11 +2,12 @@ package com.sukhralia.demo.controllers
 
 import com.sukhralia.demo.models.User
 import com.sukhralia.demo.service.UserService
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/users")
-class UserController(private val userService: UserService) {
+class UserController(@Qualifier("userServiceH2Impl") private val userService: UserService) {
 
     @GetMapping("/")
     fun getUsers(): List<User> {

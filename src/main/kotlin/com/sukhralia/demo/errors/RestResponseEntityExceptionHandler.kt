@@ -14,7 +14,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(Exception::class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun userNotFoundExceptionHandler(exception: Exception): ErrorMessage {
+    fun genericExceptionHandler(exception: Exception): ErrorMessage {
         return ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.message ?: "Something went wrong")
     }
 
